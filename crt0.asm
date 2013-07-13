@@ -21,10 +21,6 @@
 #define ARGSSPACE 128
 #endif
 
-#ifdef FULL_LIBRARY
-        .public _exit
-#endif
-
 #include <msp430.h>
 
 ; Create sections
@@ -42,6 +38,8 @@ __reset proc
         ;mov.w #WDTPW+WDTHOLD, &WDTCTL
 ; Kick Watchdog
         mov.w #WDTPW+WDTCNTCL+WDTSSEL, &WDTCTL
+
+        clr.b &IFG1
 
 ; Set up stack.
         mov.w   #___RAM_Address+___RAM_Size, sp
@@ -68,25 +66,9 @@ __reset proc
 ; Kick Watchdog
         mov.w #WDTPW+WDTCNTCL+WDTSSEL, &WDTCTL
 
-#ifdef FULL_LIBRARY
-        mov.w   #ARGSSPACE, r15
-        mov.w   #args, r14
-        callx   #_debug_getargs
-        mov.w   #args, r14
-#else
-        mov.w   #0, r15
-        mov.w   #0, r14
-#endif
 ; Call user entry point void main(void).
         callx   #_main
-#ifdef FULL_LIBRARY
-        endproc
-_exit   proc
-        mov     r15, r5
-        callx   #__execute_at_exit_fns
-        mov     r5, r15
-        callx   #_debug_exit
-#endif
+
 ; If main() returns, kick off again.
         jmp     __reset
         endproc
