@@ -7,6 +7,7 @@
 #include <SDlib.h>
 #include "timerA.h"
 #include "terminal.h"
+#include <Error.h>
 
 CTL_TASK_t tasks[3];
 
@@ -177,6 +178,11 @@ int main(void){
 
   //setup mmc interface
   mmcInit_msp();
+  
+  //setup error reporting library
+  error_init();
+  //TESTING: set log level to report everything by default
+  set_error_level(0);
 
 #ifdef ACDS_BUILD
  //set all driver pins low
