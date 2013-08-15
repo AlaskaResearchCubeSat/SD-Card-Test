@@ -986,7 +986,7 @@ int mmc_reset(char **argv, unsigned short argc){
       P7OUT|=BIT6;
     }
   #endif
-  printf("Response = %i\r\n",SD_error_str(resp));
+  printf("Response = %s\r\n",SD_error_str(resp));
   return 0;
 }
 
