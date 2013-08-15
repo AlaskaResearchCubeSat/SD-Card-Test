@@ -8,6 +8,8 @@
 #include <SDlib.h>
 #include "terminal.h"
 #include <ARCbus.h>
+#include <Error.h>
+#include "SDtst_errors.h"
 
 
 //define printf formats
@@ -98,7 +100,7 @@ int restCmd(char **argv,unsigned short argc){
     //Close async connection
     async_close();
     //write to WDTCTL without password causes PUC
-    WDT_RESET();
+    reset(ERR_LEV_INFO,SDTST_ERR_SRC_CMD,CMD_ERR_RESET,0);
     //Never reached due to reset
     puts("Error : Reset Failed!\r");
   }
