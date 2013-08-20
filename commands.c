@@ -992,10 +992,10 @@ int mmc_reset(char **argv, unsigned short argc){
   return 0;
 }
 
-int mmc_init(char **argv, unsigned short argc){
+int mmc_reinit(char **argv, unsigned short argc){
   int resp;
   //setup the SD card
-  resp=mmcInit_card();
+  resp=mmcReInit_card();
   //set some LEDs
   #ifndef ACDS_BUILD
     P7OUT&=~(BIT7|BIT6);
@@ -1064,29 +1064,6 @@ int mmcInitChkCmd(char**argv,unsigned short argc){
   }
   return 0;
 }
-  
-int mmcLockCmd(char**argv,unsigned short argc){
-  int resp;
-  //try to lock SD card
-  resp=mmcLock();
-  //check if card locked
-  if(resp){
-      //print Error
-      printf("%s\r\nSD Card Not Locked\r\n",SD_error_str(resp));
-  }else{
-    //print success message
-    printf("SD Card Locked\r\n");
-  }
-  return 0;
-}
-  
-int mmcUnlockCmd(char**argv,unsigned short argc){
-  //try to lock SD card
-  mmcUnlock();
-  //print success message
-  printf("SD Card Unlocked\r\n");
-  return 0;
-}
 
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
@@ -1102,7 +1079,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"time","\r\n\t""Return current time.",timeCmd},
                          {"async","\r\n\t""Close async connection.",asyncCmd},
                          {"exit","\r\n\t""Close async connection.",asyncCmd},                 //nice for those of us who are used to typing exit
-                         {"send"," str1 [[str2] ... ]\r\n\t""Send async data",sendCmd},
                          {"mmcr","\r\n\t""read string from mmc card.",mmc_read},
                          {"mmcdump","[sector]\r\n\t""dump a sector from MMC card.",mmc_dump},
                          {"mmcw","[data,..]\r\n\t""write data to mmc card.",mmc_write},
@@ -1111,12 +1087,9 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"mmctst","start end [seed]\r\n\t""Test by writing to blocks from start to end.",mmc_TstCmd},
                          {"mmcmw","start end [single|multi]\r\n\t""Multi block write test.",mmc_multiWTstCmd},
                          {"mmcmr","start end [single|multi]\r\n\t""Multi block read test.",mmc_multiRTstCmd},
-                         {"mmcrst","\r\n\t""reset the mmc card.",mmc_reset},
-                         {"mmcinit","\r\n\t""initialize the mmc card the mmc card.",mmc_init},
+                         {"mmcreinit","\r\n\t""initialize the mmc card the mmc card.",mmc_reinit},
                          {"DMA","\r\n\t""Check if DMA is enabled.",mmcDMA_Cmd},
                          {"mmcreg","[CID|CSD]\r\n\t""Read SD card registers.",mmcreg_Cmd},
                          {"mmcinitchk","\r\n\t""Check if the SD card is initialized",mmcInitChkCmd},
-                         {"mmcLock","\r\n\t""Lock the SD card",mmcLockCmd},
-                         {"mmcUnlock","\r\n\t""Unlock the SD card",mmcUnlockCmd},
                          //end of list
                          {NULL,NULL,NULL}};
