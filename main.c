@@ -179,8 +179,6 @@ int main(void){
   //setup mmc interface
   mmcInit_msp();
   
-  //setup error reporting library
-  error_init();
   //TESTING: set log level to report everything by default
   set_error_level(0);
 
