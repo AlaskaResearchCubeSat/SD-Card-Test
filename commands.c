@@ -975,23 +975,6 @@ int mmc_multiRTstCmd(char **argv, unsigned short argc){
   return 0;
 }
 
-int mmc_reset(char **argv, unsigned short argc){
-  int resp;
-  //setup the SD card
-  resp=mmcGoIdle();
-  //set some LEDs
-  #ifndef ACDS_BUILD
-    P7OUT&=~(BIT7|BIT6);
-    if(resp==MMC_SUCCESS){
-      P7OUT|=BIT7;
-    }else{
-      P7OUT|=BIT6;
-    }
-  #endif
-  printf("Response = %s\r\n",SD_error_str(resp));
-  return 0;
-}
-
 int mmc_reinit(char **argv, unsigned short argc){
   int resp;
   //setup the SD card
@@ -1064,6 +1047,31 @@ int mmcInitChkCmd(char**argv,unsigned short argc){
   }
   return 0;
 }
+  
+  
+//print the status of each tasks stack
+int stackCmd(char **argv,unsigned short argc){
+  extern CTL_TASK_t *ctl_task_list;
+  int i;
+  CTL_TASK_t *t=ctl_task_list;
+  //format string
+  const char *fmt="%-10s\t%lp\t%lp\t%li\r\n";
+  //print out nice header
+  printf("\r\nName\tPointer\tStart\tRemaining\r\n--------------------------------------------------------------------\r\n");
+  //loop through tasks and print out info
+  while(t!=NULL){
+    printf(fmt,t->name,t->stack_pointer,t->stack_start,t->stack_pointer-t->stack_start);
+    t=t->next;
+  }
+  //add a blank line after table
+  printf("\r\n");
+  return 0;
+}
+
+int replayCmd(char **argv,unsigned short argc){
+  error_log_replay();
+  return 0;
+}
 
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
@@ -1071,11 +1079,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"timeslice"," [period]\r\n\t""Get/set ctl_timeslice_period.",timesliceCmd},
                          {"stats","\r\n\t""Print task status",statsCmd},
                          {"reset","\r\n\t""reset the msp430.",restCmd},
-                         {"addr"," [addr]\r\n\t""Get/Set I2C address.",addrCmd},
-                         {"tx"," [noACK] [noNACK] addr ID [[data0] [data1]...]\r\n\t""send data over I2C to an address",txCmd},
-                         {"SPI","addr [len]\r\n\t""Send data using SPI.",spiCmd},
-                         {"print"," addr str1 [[str2] ... ]\r\n\t""Send a string to addr.",printCmd},
-                         {"tst"," addr len\r\n\t""Send test data to addr.",tstCmd},
                          {"time","\r\n\t""Return current time.",timeCmd},
                          {"async","\r\n\t""Close async connection.",asyncCmd},
                          {"exit","\r\n\t""Close async connection.",asyncCmd},                 //nice for those of us who are used to typing exit
@@ -1091,5 +1094,7 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"DMA","\r\n\t""Check if DMA is enabled.",mmcDMA_Cmd},
                          {"mmcreg","[CID|CSD]\r\n\t""Read SD card registers.",mmcreg_Cmd},
                          {"mmcinitchk","\r\n\t""Check if the SD card is initialized",mmcInitChkCmd},
+                         {"stack","\r\n\t""Print task stack status",stackCmd},
+                         {"replay","\r\n\t""Replay errors from log",replayCmd},
                          //end of list
                          {NULL,NULL,NULL}};
