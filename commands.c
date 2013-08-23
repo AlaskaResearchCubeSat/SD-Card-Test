@@ -797,6 +797,17 @@ int replayCmd(char **argv,unsigned short argc){
   return 0;
 }
 
+//report an error into the error log
+int reportCmd(char **argv,unsigned short argc){
+  if(argc!=4){
+    printf("Error : %s requires 4 arguments but %i given.\r\n",argv[0],argc);
+    return 1;
+  }
+  report_error(atoi(argv[1]),atoi(argv[2]),atoi(argv[3]),atoi(argv[4]));
+  return 0;
+}
+
+
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
                          {"priority"," task [priority]\r\n\t""Get/set task priority.",priorityCmd},
@@ -820,5 +831,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"mmcinitchk","\r\n\t""Check if the SD card is initialized",mmcInitChkCmd},
                          {"stack","\r\n\t""Print task stack status",stackCmd},
                          {"replay","\r\n\t""Replay errors from log",replayCmd},
+                         {"report","lev src err arg\r\n\t""Report an error",reportCmd},
                          //end of list
                          {NULL,NULL,NULL}};
