@@ -807,6 +807,15 @@ int reportCmd(char **argv,unsigned short argc){
   return 0;
 }
 
+//clear saved errors from the SD card
+int clearCmd(char **argv,unsigned short argc){
+  int ret;
+  ret=clear_saved_errors();
+  if(ret){
+    printf("Error erasing errors : %s\r\n",SD_error_str(ret));
+  }
+  return 0;
+}
 
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
@@ -832,5 +841,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"stack","\r\n\t""Print task stack status",stackCmd},
                          {"replay","\r\n\t""Replay errors from log",replayCmd},
                          {"report","lev src err arg\r\n\t""Report an error",reportCmd},
+                         {"clear","\r\n\t""Clear all saved errors on the SD card",clearCmd},
                          //end of list
                          {NULL,NULL,NULL}};
