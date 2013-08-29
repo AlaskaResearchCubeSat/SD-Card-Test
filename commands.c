@@ -817,6 +817,20 @@ int clearCmd(char **argv,unsigned short argc){
   return 0;
 }
 
+int errSpamCmd(char **argv,unsigned short argc){
+  int num,i;
+  if(argc>=1){
+    num=atoi(argv[1]);
+  }else{
+    num=10;
+  }
+  for(i=0;i<num;i++){
+    report_error(1,-1,-1,i);
+  }
+  printf("%i errors recorded\r\n",num);
+  return 0;
+}
+
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
                          {"priority"," task [priority]\r\n\t""Get/set task priority.",priorityCmd},
@@ -842,5 +856,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"replay","\r\n\t""Replay errors from log",replayCmd},
                          {"report","lev src err arg\r\n\t""Report an error",reportCmd},
                          {"clear","\r\n\t""Clear all saved errors on the SD card",clearCmd},
+                         {"espam","[num]\r\n\t""Generate num bogus errors for testing purposes",errSpamCmd},
                          //end of list
                          {NULL,NULL,NULL}};
