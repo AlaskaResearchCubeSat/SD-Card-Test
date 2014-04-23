@@ -8,6 +8,7 @@
 #include "timerA.h"
 #include "terminal.h"
 #include <Error.h>
+#include <UCA1_uart.h>
 
 CTL_TASK_t tasks[3];
 
@@ -21,7 +22,7 @@ CTL_EVENT_SET_t cmd_parse_evt;
 unsigned char buffer[80];
 
 int __putchar(int c){
-  return async_TxChar(c);
+  return UCA1_TxChar(c);
 }
 
 //handle subsystem specific commands
@@ -142,33 +143,8 @@ void sub_events(void *p) __toplevel{
 }
 
 
-//init mmc card before starting terminal task
-void sd_term(void *p) __toplevel{
-  int resp;
-  //wait for async connection to open
-  while(!async_isOpen()){
-    ctl_timeout_wait(ctl_get_current_time()+1024);
-  }
-  //setup the SD card
-  resp=mmcInit_card();
-  //check response
-  if(resp==MMC_SUCCESS){
-    printf("\rSD Card Initialized\r\n");
-    #ifndef ACDS_BUILD
-      P7OUT|=BIT7;
-    #endif
-  }else{
-    printf("\rError Initializing SD Card\r\n""Response = %i\r\n%s\r\n",resp,SD_error_str(resp));
-    #ifndef ACDS_BUILD
-      P7OUT|=BIT6;
-    #endif
-  }
-  //start terminal
-  terminal(p);
-}
-
-
 static const TERM_SPEC async_term={"SD Card Test Program Ready",async_Getc};
+static const TERM_SPEC uart_term={"SD Card Test Program Ready",UCA1_Getc};
 
 int main(void){
   //DO this first
@@ -181,6 +157,9 @@ int main(void){
   
   //TESTING: set log level to report everything by default
   set_error_level(0);
+  
+  //setup UCA1 UART
+  UCA1_init_UART();
 
 #ifdef ACDS_BUILD
  //set all driver pins low
@@ -246,7 +225,7 @@ int main(void){
   //create tasks
   ctl_task_run(&tasks[0],BUS_PRI_LOW,cmd_parse,NULL,"cmd_parse",sizeof(stack1)/sizeof(stack1[0])-2,stack1+1,0);
  
-  ctl_task_run(&tasks[1],BUS_PRI_NORMAL,sd_term,(void*)&async_term,"terminal",sizeof(stack2)/sizeof(stack2[0])-2,stack2+1,0);
+  ctl_task_run(&tasks[1],BUS_PRI_NORMAL,terminal,(void*)&uart_term,"terminal",sizeof(stack2)/sizeof(stack2[0])-2,stack2+1,0);
 
   ctl_task_run(&tasks[2],BUS_PRI_HIGH,sub_events,NULL,"sub_events",sizeof(stack3)/sizeof(stack3[0])-2,stack3+1,0);
   

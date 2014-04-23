@@ -97,8 +97,6 @@ int restCmd(char **argv,unsigned short argc){
   }
   //reset if no arguments given or to reset all boards
   if(argc==0 || all){
-    //Close async connection
-    async_close();
     //write to WDTCTL without password causes PUC
     reset(ERR_LEV_INFO,SDTST_ERR_SRC_CMD,CMD_ERR_RESET,0);
     //Never reached due to reset
@@ -222,44 +220,6 @@ int statsCmd(char **argv,unsigned short argc){
 //print current time
 int timeCmd(char **argv,unsigned short argc){
   printf("time ticker = %li\r\n",get_ticker_time());
-  return 0;
-}
-
-int asyncCmd(char **argv,unsigned short argc){
-   char c;
-   CTL_EVENT_SET_t e=0,evt;
-   unsigned char addr;
-   if(argc!=0){
-    printf("Error : \"%s\" takes zero arguments\r\n",argv[0]);
-    return -1;
-  }
-  //close async connection
-  if(async_close()!=RET_SUCCESS){
-    printf("Error : async_close() failed.\r\n");
-  }
-}
-
-int sendCmd(char **argv,unsigned short argc){
-  unsigned char *ptr,id;
-  unsigned short len;
-  int i,j,k;
-  if(!async_isOpen()){
-    printf("Error : Async is not open\r\n");
-    return -1;
-  }
-  //check number of arguments
-  if(argc<1){
-    printf("Error : too few arguments.\r\n");
-    return 1;
-  }
-  //Send string data
-  for(i=1,k=0;i<=argc;i++){
-    j=0;
-    while(argv[i][j]!=0){
-      async_TxChar(argv[i][j++]);
-    }
-    async_TxChar(' ');
-  }
   return 0;
 }
 
@@ -838,8 +798,6 @@ const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or h
                          {"stats","\r\n\t""Print task status",statsCmd},
                          {"reset","\r\n\t""reset the msp430.",restCmd},
                          {"time","\r\n\t""Return current time.",timeCmd},
-                         {"async","\r\n\t""Close async connection.",asyncCmd},
-                         {"exit","\r\n\t""Close async connection.",asyncCmd},                 //nice for those of us who are used to typing exit
                          {"mmcr","\r\n\t""read string from mmc card.",mmc_read},
                          {"mmcdump","[sector]\r\n\t""dump a sector from MMC card.",mmc_dump},
                          {"mmcw","[data,..]\r\n\t""write data to mmc card.",mmc_write},
