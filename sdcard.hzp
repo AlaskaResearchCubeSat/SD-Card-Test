@@ -16,12 +16,12 @@
       <file file_name="$(StudioDir)/ctl/source/threads.js"/>
     </folder>
   </project>
-  <configuration Name="MSP430 Debug" inherited_configurations="MSP430;Debug" linker_additional_files="Z:/Software/Libraries/ARClib/MSP430 Debug/BUSlib.hza;Z:/Software/lib/termlib_Debug.hza;Z:/Software/lib/Error_SDcard_Debug.hza;Z:/Software/lib/UART_UCA1_Debug.hza;Z:/Software/Libraries/SD-lib/UCB1 Debug/SD-lib.hza"/>
+  <configuration Name="MSP430 Debug" inherited_configurations="MSP430;Debug" linker_additional_files="Z:/Software/Libraries/ARClib/MSP430 Debug/BUSlib.hza;Z:/Software/lib/termlib_Debug.hza;Z:/Software/lib/Error_SDcard_Debug.hza;Z:/Software/lib/UART_UCA1_Debug.hza;Z:/Software/lib/commandLib_Debug.hza;Z:/Software/Libraries/SD-lib/UCB1 Debug/SD-lib.hza"/>
   <configuration Name="MSP430" Platform="MSP430" hidden="Yes"/>
   <configuration Name="Debug" build_debug_information="Yes" hidden="Yes"/>
   <configuration Name="MSP430 Release" inherited_configurations="MSP430;Release" linker_additional_files="Z:/Software/Libraries/ARClib/MSP430 Release/BUSlib.hza;Z:/Software/Libraries/ErrorLib/MSP430 SDcard Release/Error.hza;Z:/Software/lib/termlib_Release.hza;Z:/Software/Libraries/SD-lib/UCA1 Release/SD-lib.hza"/>
   <configuration Name="Release" build_debug_information="No" c_preprocessor_definitions="NDEBUG" hidden="Yes" optimize_block_locality="Yes" optimize_copy_propagation="Yes" optimize_cross_calling="Standard" optimize_cross_jumping="Yes" optimize_dead_code="Yes" optimize_jump_chaining="Yes" optimize_jump_threading="Yes" optimize_tail_merging="Yes"/>
-  <configuration Name="Common" c_preprocessor_definitions="" c_system_include_directories="$(StudioDir)/include;$(PackagesDir)/include;$(StudioDir)/ctl/include;Z:/Software/Libraries/SD-lib/;Z:/Software/include" linker_DebugIO_enabled="No"/>
+  <configuration Name="Common" c_preprocessor_definitions="" c_system_include_directories="$(StudioDir)/include;$(PackagesDir)/include;$(StudioDir)/ctl/include;Z:/Software/Libraries/SD-lib/;Z:/Software/include" linker_DebugIO_enabled="No" linker_scanf_fmt_level="long"/>
   <configuration Name="ACDS" c_preprocessor_definitions="ACDS_BUILD" hidden="Yes"/>
   <configuration Name="MSP430 ACDS Debug" inherited_configurations="ACDS;Debug;MSP430"/>
   <configuration Name="MSP430 ACDS Release" inherited_configurations="ACDS;MSP430;Release"/>
