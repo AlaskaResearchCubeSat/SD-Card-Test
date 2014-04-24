@@ -17,10 +17,6 @@
 #define HEXOUT_STR    "%02X "
 #define ASCIIOUT_STR  "%c"
 
-//prototype for putchar
-int __putchar(int ch);
-
-
 //report an error into the error log
 int reportCmd(char **argv,unsigned short argc){
   if(argc!=4){
