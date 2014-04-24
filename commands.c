@@ -70,9 +70,6 @@ int mmccount_Cmd(char **argv, unsigned short argc){
 //table of commands with help
 const CMD_SPEC cmd_tbl[]={{"help"," [command]\r\n\t""get a list of commands or help on a spesific command.",helpCmd},
                          CTL_COMMANDS,ARC_COMMANDS,ERROR_COMMANDS,MMC_COMMANDS,
-                         {"reset","\r\n\t""reset the msp430.",restCmd},
-                         {"mmcsize","\r\n\t""get card size.",mmc_cardSize},
-                         {"DMA","\r\n\t""Check if DMA is enabled.",mmcDMA_Cmd},
                          {"report","lev src err arg\r\n\t""Report an error",reportCmd},
                          {"mmccount","[sector]\r\n\t""Write count values to a sector.",mmccount_Cmd},
                          //end of list
