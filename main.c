@@ -96,9 +96,6 @@ void sub_events(void *p) __toplevel{
       //send command
       BUS_cmd_tx(BUS_ADDR_CDH,buf,0,0,BUS_I2C_SEND_FOREGROUND);
     }
-    if(e&SUB_EV_TIME_CHECK){
-      //printf("time ticker = %li\r\n",get_ticker_time());
-    }
     if(e&SUB_EV_SPI_DAT){
       //puts("SPI data recived:\r");
       //get length
