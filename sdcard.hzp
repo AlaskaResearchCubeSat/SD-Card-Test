@@ -1,7 +1,7 @@
 <!DOCTYPE CrossStudio_Project_File>
 <solution Name="SD card" target="9" version="2">
   <project Name="SD card">
-    <configuration Name="Common" Platform="MSP430" Target="MSP430F2618" build_use_hardware_multiplier="16-Bit Multiplier" link_symbol_definitions="CTL_IRQ_STACK_SIZE=128" link_use_multi_threaded_libraries="Yes" linker_additional_files="$(StudioDir)/ctl/lib/libctl$(LibExt).hza" linker_memory_map_file="$(PackagesDir)/targets/msp430/MSP430F2618.xml" linker_printf_fmt_level="long" linker_section_placement_file="$(StudioDir)/targets/section_placement_info_abcd_iv32.xml" msp430_debug_interface="JTAG" msp430_identify_string="MSP430F2618" msp430_insn_set="MSP430X" optimize_code_motion="Yes" optimize_copy_propagation="Yes" optimize_jump_chaining="Yes" project_directory="" project_type="Executable"/>
+    <configuration Name="Common" Platform="MSP430" libctl="Yes" Target="MSP430F2618" build_use_hardware_multiplier="16-Bit Multiplier" link_symbol_definitions="CTL_IRQ_STACK_SIZE=128" link_use_multi_threaded_libraries="Yes" linker_additional_files="$(StudioDir)/ctl/lib/libctl$(LibExt).hza" linker_memory_map_file="$(PackagesDir)/targets/msp430/MSP430F2618.xml" linker_printf_fmt_level="long" linker_section_placement_file="$(StudioDir)/targets/section_placement_info_abcd_iv32.xml" msp430_debug_interface="JTAG" msp430_identify_string="MSP430F2618" msp430_insn_set="MSP430X" optimize_code_motion="Yes" optimize_copy_propagation="Yes" optimize_jump_chaining="Yes" project_directory="" project_type="Executable"/>
     <folder Name="Source Files" file_name="">
       <configuration Name="Common" filter="c;h;s;asm;inc;s43"/>
       <file file_name="main.c"/>
@@ -16,12 +16,12 @@
       <file file_name="$(StudioDir)/ctl/source/threads.js"/>
     </folder>
   </project>
-  <configuration Name="MSP430 Debug" inherited_configurations="MSP430;Debug" linker_additional_files="Z:/Software/Libraries/ARClib/MSP430 Debug/BUSlib.hza;Z:/Software/lib/termlib_Debug.hza;Z:/Software/lib/Error_SDcard_Debug.hza;Z:/Software/lib/UART_UCA1_Debug.hza;Z:/Software/lib/commandLib_Debug.hza;Z:/Software/Libraries/SD-lib/UCB1 Debug/SD-lib.hza"/>
+  <configuration Name="MSP430 Debug" inherited_configurations="MSP430;Debug" linker_additional_files="Z:/Software-old/lib/BUSlib_Debug.hza;Z:/Software-old/lib/termlib_Debug.hza;Z:/Software-old/lib/Error_SDcard_Debug.hza;Z:/Software-old/lib/UART_UCA1_Debug.hza;Z:/Software-old/lib/commandLib_Debug.hza;Z:/Software-old/lib/SD-lib_UCB1_Debug.hza;Z:/Software-old/lib/Error_printf_Debug.hza;Z:/Software-old/lib/commandLib_Debug.hza"/>
   <configuration Name="MSP430" Platform="MSP430" hidden="Yes"/>
   <configuration Name="Debug" build_debug_information="Yes" hidden="Yes"/>
-  <configuration Name="MSP430 Release" inherited_configurations="MSP430;Release" linker_additional_files="Z:/Software/Libraries/ARClib/MSP430 Release/BUSlib.hza;Z:/Software/Libraries/ErrorLib/MSP430 SDcard Release/Error.hza;Z:/Software/lib/termlib_Release.hza;Z:/Software/Libraries/SD-lib/UCA1 Release/SD-lib.hza"/>
+  <configuration Name="MSP430 Release" inherited_configurations="MSP430;Release" linker_additional_files="Z:/Software-old/lib/BUSlib_Release.hza;Z:/Software-old/lib/termlib_Release.hza;Z:/Software-old/lib/SD-lib_UCB1_Release.hza;Z:/Software-old/lib/Error_printf_Release.hza;Z:/Software-old/lib/commandLib_Release.hza"/>
   <configuration Name="Release" build_debug_information="No" c_preprocessor_definitions="NDEBUG" hidden="Yes" optimize_block_locality="Yes" optimize_copy_propagation="Yes" optimize_cross_calling="Standard" optimize_cross_jumping="Yes" optimize_dead_code="Yes" optimize_jump_chaining="Yes" optimize_jump_threading="Yes" optimize_tail_merging="Yes"/>
-  <configuration Name="Common" c_preprocessor_definitions="" c_system_include_directories="$(StudioDir)/include;$(PackagesDir)/include;$(StudioDir)/ctl/include;Z:/Software/Libraries/SD-lib/;Z:/Software/include" linker_DebugIO_enabled="No" linker_scanf_fmt_level="long"/>
+  <configuration Name="Common" c_preprocessor_definitions="" c_system_include_directories="$(StudioDir)/include;$(PackagesDir)/include;$(StudioDir)/ctl/include;Z:/Software-old/include" linker_DebugIO_enabled="No" linker_scanf_fmt_level="long"/>
   <configuration Name="ACDS" c_preprocessor_definitions="ACDS_BUILD" hidden="Yes"/>
   <configuration Name="MSP430 ACDS Debug" inherited_configurations="ACDS;Debug;MSP430"/>
   <configuration Name="MSP430 ACDS Release" inherited_configurations="ACDS;MSP430;Release"/>

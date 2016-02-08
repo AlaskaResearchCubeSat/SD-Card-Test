@@ -1,4 +1,4 @@
-#include <ctl_api.h>
+#include <ctl.h>
 #include <msp430.h>
 
 //use majority function so the timer
